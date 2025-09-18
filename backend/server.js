@@ -14,36 +14,30 @@ dotenv.config();
 const app = express();
 connectDB();
 
-// __dirname workaround (because ES Modules)
+// __dirname for ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ✅ Allow local in dev + same-origin in production
-const allowedOrigins =
-  process.env.NODE_ENV === "production"
-    ? ["*"] // Render will serve frontend from same origin, so wildcard is fine
-    : ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"];
-
+// CORS
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: process.env.NODE_ENV === "production" ? "*" : ["http://localhost:5173"],
     credentials: true,
   })
 );
 
 app.use(morgan("dev"));
 app.use(express.json());
-app.use("/uploads", express.static("uploads")); // serve uploaded files
+app.use("/uploads", express.static("uploads"));
 
-// API Routes
+// API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectsRoutes);
 app.use("/api/admin", adminRoutes);
 
-// 🟢 Serve Frontend build in production
+// Serve frontend in production
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
-
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "../frontend/dist", "index.html"));
   });
