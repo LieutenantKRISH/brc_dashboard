@@ -7,12 +7,12 @@
     "node": "20.19.0"
   },
   "scripts": {
-    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install",
+    "build": "cd backend && npm install",
     "build-frontend": "cd frontend && npm install && npm run build",
     "start": "cd backend && npm start",
     "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && npm start\"",
     "install-all": "cd frontend && npm install && cd ../backend && npm install",
-    "deploy": "chmod +x deploy.sh && ./deploy.sh"
+    "deploy": "cd backend && npm install"
   },
   "keywords": ["dashboard", "brc", "react", "node", "express"],
   "author": "",

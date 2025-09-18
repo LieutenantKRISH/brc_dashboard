@@ -12,7 +12,8 @@ export default function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const res = await api.post("/auth/login", form);
+      
+      const res = await api.post("./auth/login", form);
       console.log("Login response:", res.data);
 
       // adjust if backend wraps inside .data

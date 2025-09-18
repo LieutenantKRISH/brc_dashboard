@@ -1,7 +1,13 @@
 import axios from "axios";
+import API_CONFIG from "../config/api.js";
+
+// Get API URL based on environment
+const API_BASE_URL = API_CONFIG.getApiUrl();
+
+console.log("API Base URL:", API_BASE_URL); // Debug log
 
 const api = axios.create({
-  baseURL: "http://localhost:4000/api",
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 });
 

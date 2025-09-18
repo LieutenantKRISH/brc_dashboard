@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: brc-dashboard-frontend
+    env: static
+    plan: free
+    buildCommand: |
+      echo "Starting frontend build process..."
+      echo "Current directory: $(pwd)"
+      echo "Directory contents:"
+      ls -la
+      
+      echo "Installing frontend dependencies..."
+      cd frontend
+      npm install
+      echo "Building frontend..."
+      npm run build
+      echo "Frontend build completed. Contents of dist:"
+      ls -la dist/
+      
+      echo "Copying build files to root..."
+      cp -r dist/* ../
+      
+      echo "Frontend deployment ready!"
+    staticPublishPath: ./frontend/dist
+    envVars:
+      - key: NODE_ENV
+        value: production
