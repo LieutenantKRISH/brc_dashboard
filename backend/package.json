@@ -9,7 +9,9 @@
   },
   "scripts": {
     "start": "node server.js",
-    "seed": "node seed/seedAdmin.js"
+    "seed": "node seed/seedAdmin.js",
+    "build": "cd ../frontend && npm install && npm run build",
+    "postinstall": "npm run build"
   },
   "keywords": [],
   "author": "",

@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: brc-dashboard
+    env: node
+    plan: free
+    buildCommand: |
+      echo "Starting build process..."
+      echo "Current directory: $(pwd)"
+      echo "Directory contents:"
+      ls -la
+      
+      echo "Installing frontend dependencies..."
+      cd frontend
+      npm install
+      echo "Building frontend..."
+      npm run build
+      echo "Frontend build completed. Contents of dist:"
+      ls -la dist/
+      
+      echo "Installing backend dependencies..."
+      cd ../backend
+      npm install
+      
+      echo "Build completed successfully!"
+      echo "Final directory structure:"
+      cd ..
+      find . -name "dist" -type d
+      find . -name "index.html" -type f
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
