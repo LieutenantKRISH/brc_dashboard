@@ -1,13 +1,14 @@
 import axios from "axios";
 import API_CONFIG from "../config/api.js";
 
-// Get API URL based on environment
-const API_BASE_URL = API_CONFIG.getApiUrl();
+// Get API URL from config or env
+const API_BASE_URL = API_CONFIG.getApiUrl() || import.meta.env.VITE_API_URL;
 
 console.log("API Base URL:", API_BASE_URL); // Debug log
 
+// Use the correct baseURL
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: API_BASE_URL,  // <-- FIXED
   withCredentials: true,
 });
 
