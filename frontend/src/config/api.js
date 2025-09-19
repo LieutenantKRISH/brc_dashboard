@@ -1,10 +1,10 @@
 // API Configuration
 const API_CONFIG = {
   // Development
-  development: "http://localhost:4000/api",
+  development: "https://brc-dashboard-lgas.onrender.com/api",
   
   // Production - Your actual backend URL
-  production: "https://brc-dashboard-eh9r.onrender.com/api",
+  production: "https://brc-dashboard-lgas.onrender.com/api",
   
   // Get current environment
   getCurrentEnv: () => {
