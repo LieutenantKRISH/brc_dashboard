@@ -46,6 +46,10 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", message: "Backend is running!" });
 });
 
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
+
 // Error handling middleware
 app.use(errorHandler);
 
