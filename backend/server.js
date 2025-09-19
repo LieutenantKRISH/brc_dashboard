@@ -19,10 +19,11 @@ const allowedOrigins =
   process.env.NODE_ENV === "production"
     ? [
         process.env.FRONTEND_URL, // Your frontend domain from environment variable
+        "https://brc-dashboard-1.onrender.com",
         "https://brc-dashboard-frontend.onrender.com", // Example Render frontend URL
         "http://localhost:3000", // For local testing
-        "http://localhost:5173",
-        "https://brc-dashboard-1.onrender.com/" // Vite dev server
+        "http://localhost:5173"
+         // Vite dev server
       ].filter(Boolean) // Remove undefined values
     : ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "0.0.0.0"];
 
