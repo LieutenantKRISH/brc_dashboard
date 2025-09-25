@@ -12,58 +12,53 @@ dotenv.config({ path: join(__dirname, '..', '.env') });
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/brc-dashboard';
 
-// Assign a unique password for each user
+// Users with simple ID structure starting from 0
 const users = [
   { 
     _id: new mongoose.Types.ObjectId("000000000000000000000000"), 
     email: "kavitasarapali50@gmail.com", 
     name: "Kavita Sarapali", 
-    role: "user",
-    password: "kavita@2025"
+    role: "user" 
   },
   { 
     _id: new mongoose.Types.ObjectId("000000000000000000000001"), 
     email: "shruthirpm26@gmail.com", 
     name: "Shruthi RPM", 
-    role: "user",
-    password: "shruthi@2025"
+    role: "user" 
   },
   { 
     _id: new mongoose.Types.ObjectId("000000000000000000000002"), 
     email: "sanathnayak733@gmail.com", 
     name: "Sanath Nayak", 
-    role: "user",
-    password: "sanath@2025"
+    role: "user" 
   },
   { 
     _id: new mongoose.Types.ObjectId("000000000000000000000003"), 
     email: "saraswathisutaclasses@gmail.com", 
     name: "Saraswathi Suta", 
-    role: "user",
-    password: "saraswathi@2025"
+    role: "user" 
   },
   { 
     _id: new mongoose.Types.ObjectId("000000000000000000000004"), 
     email: "spiritualyatras6@gmail.com", 
     name: "Spiritual Yatras", 
-    role: "user",
-    password: "spiritual@2025"
+    role: "user" 
   },
   { 
     _id: new mongoose.Types.ObjectId("000000000000000000000005"), 
     email: "seemaf1504@gmail.com", 
     name: "Seema F", 
-    role: "user",
-    password: "seema@2025"
+    role: "user" 
   },
   { 
     _id: new mongoose.Types.ObjectId("000000000000000000000006"), 
     email: "krishspider@gmail.com", 
     name: "Krish Spider", 
-    role: "admin",
-    password: "admin@2025"
+    role: "admin" 
   }
 ];
+
+const PASSWORD = "brcadmin@2025";
 
 async function seedUsers() {
   try {
@@ -72,14 +67,14 @@ async function seedUsers() {
     console.log("MongoDB connected successfully");
 
     const salt = Number(process.env.BCRYPT_SALT) || 10;
+    const passwordHash = await bcrypt.hash(PASSWORD, salt);
 
     for (const userData of users) {
-      const passwordHash = await bcrypt.hash(userData.password, salt);
       const existingUser = await User.findOne({ email: userData.email });
       
       if (existingUser) {
         console.log(`User ${userData.email} already exists, updating password...`);
-        existingUser.passwordHash = passwordHash; // <-- use passwordHash
+        existingUser.passwordHash = passwordHash;
         existingUser.role = userData.role;
         existingUser.name = userData.name;
         await existingUser.save();
@@ -89,16 +84,15 @@ async function seedUsers() {
           _id: userData._id, // Use predefined ObjectId
           name: userData.name,
           email: userData.email,
-          passwordHash: passwordHash, // <-- use passwordHash
+          passwordHash: passwordHash,
           role: userData.role
         });
         console.log(`Created user: ${user.email} (${user.role}) - ID: ${user._id}`);
       }
-      // Optionally, print the password for reference
-      console.log(`Password for ${userData.email}: ${userData.password}`);
     }
 
     console.log("All users seeded successfully!");
+    console.log(`Password for all users: ${PASSWORD}`);
     
   } catch (error) {
     console.error("Error seeding users:", error);
